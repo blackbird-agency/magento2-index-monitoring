@@ -57,8 +57,8 @@ Troubleshooting:
 - Check Magento cron (system.cron) and server cron jobs.
 - Review var/log/blackbird_index_monitoring.log for alert records.
 - Useful commands:
-  - warden env exec php-fpm bin/magento indexer:status
-  - warden env exec php-fpm bin/magento indexer:show-mode
-  - warden env exec php-fpm bin/magento indexer:reset <indexer_id>
-  - warden env exec php-fpm bin/magento indexer:reindex <indexer_id>
-  - warden env exec php-fpm bin/magento blackbird:indexer:check-status
+  - bin/magento indexer:status
+  - bin/magento indexer:show-mode
+  - bin/magento indexer:reset <indexer_id>
+  - bin/magento indexer:reindex <indexer_id>
+  - bin/magento blackbird:indexer:check-status
