@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="blackbird_index_monitoring" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Blackbird - Index Monitoring</label>
+            <tab>advanced</tab>
+            <resource>Blackbird_IndexMonitoring::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable monitoring</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="threshold_minutes" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Blocking threshold (minutes)</label>
+                    <comment>Maximum allowed time in "working" status before alert. Default: 60 minutes.</comment>
+                </field>
+                <field id="recipients" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Recipients (emails separated by commas)</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

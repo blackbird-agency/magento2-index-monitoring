@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="adminhtml.indexer.grid.grid.massaction">
+            <arguments>
+                <argument name="options" xsi:type="array">
+                    <item name="reset_mview_state" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Reset Mview State to Idle</item>
+                        <item name="url" xsi:type="string">blackbird_indexmonitoring/mview/massResetState</item>
+                        <item name="confirm" xsi:type="string" translate="true">Are you sure you want to reset the materialized view state(s) to idle?</item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

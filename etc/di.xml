@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Blackbird\IndexMonitoring\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">blackbird_index_monitoring</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="stream" xsi:type="object">Blackbird\IndexMonitoring\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="blackbird_indexmonitoring_check_indexer_status" xsi:type="object">
+                    Blackbird\IndexMonitoring\Console\Command\CheckIndexerStatus
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
