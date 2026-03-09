@@ -2,7 +2,7 @@
     "name": "blackbird/magento2-index-monitoring",
     "description": "Magento 2 module for monitoring indexers and mview states with email alerts",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": [
         "MIT"
     ],
