@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Blackbird\IndexMonitoring\Model\Notifier;
 
 use Blackbird\IndexMonitoring\Model\Config;
-use Magento\Framework\App\State;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\Translate\Inline\StateInterface as InlineTranslation;
 use Magento\Store\Model\StoreManagerInterface;
@@ -16,8 +15,7 @@ class EmailNotifier
         private readonly TransportBuilder $transportBuilder,
         private readonly InlineTranslation $inlineTranslation,
         private readonly StoreManagerInterface $storeManager,
-        private readonly Config $config,
-        private readonly State $state
+        private readonly Config $config
     ) {
     }
 
@@ -26,7 +24,6 @@ class EmailNotifier
      */
     public function notify(array $issues): void
     {
-        $this->state->setAreaCode(Area::AREA_ADMINHTML);
         $recipients = $this->parseRecipients($this->config->getRecipientsRaw());
 
         if (empty($recipients)) {

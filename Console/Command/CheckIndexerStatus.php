@@ -4,6 +4,8 @@ namespace Blackbird\IndexMonitoring\Console\Command;
 
 use Blackbird\IndexMonitoring\Logger\Logger;
 use Blackbird\IndexMonitoring\Service\MonitorService;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,6 +16,7 @@ class CheckIndexerStatus extends Command
     public function __construct(
         private readonly MonitorService $monitorService,
         private readonly Logger $logger,
+        private readonly State $state,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -39,6 +42,8 @@ class CheckIndexerStatus extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->state->setAreaCode(Area::AREA_ADMINHTML);
+
         try {
             $this->monitorService->execute();
             return Command::SUCCESS;
