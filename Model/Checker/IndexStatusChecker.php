@@ -62,7 +62,7 @@ class IndexStatusChecker
             $viewId = method_exists($mviewState, 'getViewId') ? (string) $mviewState->getViewId() : '';
 
             // Magento core defines statuses: idle, working, suspended. We also consider custom 'error' value if present.
-            if (in_array($status, 'error', true)) {
+            if (in_array($status, ['error'], true)) {
                 $mviewIssues[] = [
                     'id' => $viewId,
                     'status' => $status,
