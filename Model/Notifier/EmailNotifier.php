@@ -86,18 +86,38 @@ class EmailNotifier
         if (!empty($issues['mviews'])) {
             $lines[] = 'Problematic MViews (Materialized Views):';
             foreach ($issues['mviews'] as $item) {
-                $lines[] = sprintf(
-                    '- %s | status=%s | mode=%s | updated=%s%s',
-                    $item['id'] ?? 'n/a',
-                    $item['status'] ?? 'n/a',
-                    $item['mode'] ?? 'n/a',
-                    $item['updated_at'] ?? 'n/a',
-                    isset($item['threshold_minutes']) ? sprintf(' | threshold=%d min', (int) $item['threshold_minutes']) : ''
-                );
+                $lines[] = match ($item['issue_type'] ?? '') {
+                    'idle_pending'  => $this->formatMviewIdlePending($item),
+                    default         => $this->formatMviewDefault($item),
+                };
             }
             $lines[] = '';
         }
 
         return implode("\n", $lines);
+    }
+
+    private function formatMviewIdlePending(array $item): string
+    {
+        return sprintf(
+            '- %s | idle with pending items | mode=%s | idle_since=%s | pending=%d versions | threshold=%d min',
+            $item['id'] ?? 'n/a',
+            $item['mode'] ?? 'n/a',
+            $item['updated_at'] ?? 'n/a',
+            (int) ($item['pending_versions'] ?? 0),
+            (int) ($item['threshold_minutes'] ?? 0)
+        );
+    }
+
+    private function formatMviewDefault(array $item): string
+    {
+        return sprintf(
+            '- %s | status=%s | mode=%s | updated=%s%s',
+            $item['id'] ?? 'n/a',
+            $item['status'] ?? 'n/a',
+            $item['mode'] ?? 'n/a',
+            $item['updated_at'] ?? 'n/a',
+            isset($item['threshold_minutes']) ? sprintf(' | threshold=%d min', (int) $item['threshold_minutes']) : ''
+        );
     }
 }

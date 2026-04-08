@@ -26,8 +26,9 @@ class MonitorService
             return;
         }
 
-        $threshold = $this->config->getThresholdMinutes();
-        $issues    = $this->checker->collectIssues($threshold);
+        $threshold            = $this->config->getThresholdMinutes();
+        $idlePendingThreshold = $this->config->getIdlePendingThresholdMinutes();
+        $issues               = $this->checker->collectIssues($threshold, $idlePendingThreshold);
 
         $hasIssues = !empty($issues['indexers']) || !empty($issues['mviews']);
         $digest    = $hasIssues ? sha1(json_encode($issues, JSON_THROW_ON_ERROR)) : '';
@@ -46,10 +47,11 @@ class MonitorService
                 $this->notifier->notify($issues);
                 $this->digestStorage->save($digest);
                 $summary = sprintf(
-                    'Alert sent. Indexers=%d, MViews=%d, threshold=%d min',
+                    'Alert sent. Indexers=%d, MViews=%d, threshold=%d min, idlePendingThreshold=%d min',
                     count($issues['indexers']),
                     count($issues['mviews']),
-                    $threshold
+                    $threshold,
+                    $idlePendingThreshold
                 );
                 $this->logger->error($summary);
             } catch (\Throwable $e) {
