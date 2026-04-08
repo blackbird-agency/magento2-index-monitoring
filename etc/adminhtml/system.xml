@@ -15,6 +15,10 @@
                     <label>Blocking threshold (minutes)</label>
                     <comment>Maximum allowed time in "working" status before alert. Default: 60 minutes.</comment>
                 </field>
+                <field id="idle_pending_threshold_minutes" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Idle with pending items threshold (minutes)</label>
+                    <comment>Maximum time an mview can stay idle with unprocessed changelog entries before alert. Default: 30 minutes.</comment>
+                </field>
                 <field id="recipients" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Recipients (emails separated by commas)</label>
                 </field>

@@ -5,6 +5,7 @@
             <general>
                 <enabled>1</enabled>
                 <threshold_minutes>60</threshold_minutes>
+                <idle_pending_threshold_minutes>30</idle_pending_threshold_minutes>
             </general>
         </blackbird_index_monitoring>
     </default>
