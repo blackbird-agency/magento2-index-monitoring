@@ -9,6 +9,7 @@ use Blackbird\IndexMonitoring\Model\Config;
 use Blackbird\IndexMonitoring\Model\Deduplicator\DigestStorage;
 use Blackbird\IndexMonitoring\Model\Deduplicator\PendingStateStorage;
 use Blackbird\IndexMonitoring\Model\Notifier\EmailNotifier;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class MonitorService
@@ -19,6 +20,7 @@ class MonitorService
         private readonly EmailNotifier $notifier,
         private readonly DigestStorage $digestStorage,
         private readonly PendingStateStorage $pendingStateStorage,
+        private readonly SerializerInterface $serializer,
         private readonly TimezoneInterface $timezone,
         private readonly Logger $logger
     ) {
@@ -108,7 +110,7 @@ class MonitorService
         }
 
         // Hash only stable identifiers so the digest does not change when counters fluctuate.
-        $digest = sha1(json_encode($this->normalizeForDigest($issues), JSON_THROW_ON_ERROR));
+        $digest = sha1($this->serializer->serialize($this->normalizeForDigest($issues)));
 
         if ($this->digestStorage->hasChanged($digest)) {
             try {
