@@ -100,10 +100,10 @@ class EmailNotifier
     private function formatMviewIdlePending(array $item): string
     {
         return sprintf(
-            '- %s | idle with pending items | mode=%s | idle_since=%s | pending=%d versions | threshold=%d min',
+            '- %s | idle with pending items | mode=%s | pending_since=%s | pending=%d versions | threshold=%d min',
             $item['id'] ?? 'n/a',
             $item['mode'] ?? 'n/a',
-            $item['updated_at'] ?? 'n/a',
+            $item['first_seen_at'] ?? $item['updated_at'] ?? 'n/a',
             (int) ($item['pending_versions'] ?? 0),
             (int) ($item['threshold_minutes'] ?? 0)
         );

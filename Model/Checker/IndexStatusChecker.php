@@ -29,7 +29,6 @@ class IndexStatusChecker
     public function collectIssues(int $thresholdMinutes, int $idlePendingThresholdMinutes = 30): array
     {
         $thresholdSeconds = max(1, $thresholdMinutes) * 60;
-        $idlePendingThresholdSeconds = max(1, $idlePendingThresholdMinutes) * 60;
         $now = time();
 
         $indexerIssues = [];
@@ -72,21 +71,20 @@ class IndexStatusChecker
                 continue;
             }
 
-            if ($status === MviewStateInterface::STATUS_WORKING && ($now - $updated) > $thresholdSeconds) {
+            if ($updated > 0 && $status === MviewStateInterface::STATUS_WORKING && ($now - $updated) > $thresholdSeconds) {
                 $mviewIssues[] = $this->buildMviewBaseIssue($viewId, 'working_stuck', $status, $mode, $updated)
                     + ['threshold_minutes' => $thresholdMinutes];
             }
 
-            // Detect idle mviews that have unprocessed changelog entries for too long.
-            if ($status === MviewStateInterface::STATUS_IDLE
-                && $viewId !== ''
-                && ($now - $updated) > $idlePendingThresholdSeconds
-            ) {
+            // Detect idle mviews with unprocessed changelog entries.
+            // Time-threshold check is handled upstream (MonitorService) using our own first-seen clock,
+            // because mview_state.updated_at is not reliably updated by Magento on every processing cycle.
+            if ($status === MviewStateInterface::STATUS_IDLE && $viewId !== '') {
                 $connection = $this->resourceConnection->getConnection();
                 $pendingVersions = $this->fetchPendingVersionCount($viewId, (int) $mviewState->getVersionId(), $connection);
                 if ($pendingVersions > 0) {
                     $mviewIssues[] = $this->buildMviewBaseIssue($viewId, 'idle_pending', $status, $mode, $updated)
-                        + ['pending_versions' => $pendingVersions, 'threshold_minutes' => $idlePendingThresholdMinutes];
+                        + ['pending_versions' => $pendingVersions];
                 }
             }
         }
